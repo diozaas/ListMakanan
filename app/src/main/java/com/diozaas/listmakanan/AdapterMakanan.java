@@ -1,6 +1,7 @@
 package com.diozaas.listmakanan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,22 @@ public class AdapterMakanan extends RecyclerView.Adapter<AdapterMakanan.MakananV
 
     // onBindViewHolder untuk Binding data yang diambil
     @Override
-    public void onBindViewHolder(@NonNull MakananViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MakananViewHolder holder, final int position) {
         holder.nama.setText(listMakanan.get(position).nama);
 
 //        holder.gambar.setImageResource(listMakanan.get(position).photo);
         Glide.with(context).load(listMakanan.get(position).getPhoto()).into(holder.gambar);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailMakanan.class);
+                intent.putExtra("nama",listMakanan.get(position).getNama());
+                intent.putExtra("gambar",listMakanan.get(position).getPhoto());
+                intent.putExtra("detail",listMakanan.get(position).getDetail());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
